@@ -1,3 +1,23 @@
+//! # W7-X Adaptive Turbulence Control Simulator
+//! 
+//! **Version 2.0 (Final)**
+//! 
+//! Simulates AI-controlled pulsed turbulence enhancement for
+//! impurity management in W7-X stellarator plasmas.
+//! 
+//! ## Key Features
+//! - 1D radial transport with neoclassical + turbulent diffusion
+//! - ITG-based turbulence model
+//! - Adaptive control with cooldown mechanism
+//! - Stable sawtooth pattern (6-10×10¹⁸ m⁻³)
+//! 
+//! ## Usage
+//! ```bash
+//! cargo run --release
+//! python plot_results.py
+//! ```
+
+
 use ndarray::Array1;
 use std::fs::File;
 use std::io::{BufWriter, Write};
