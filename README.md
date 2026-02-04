@@ -43,7 +43,7 @@ Think of plasma like managing "mood swings":
 
 ### Final Simulation (v3)
 
-![Simulation Results](code/v3-final/result.png)
+![Simulation Results](code/v2-final/result.png)
 
 **Key Achievements:**
 - ✅ Stable sawtooth pattern (6-10×10¹⁸ m⁻³)
