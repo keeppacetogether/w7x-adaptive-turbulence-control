@@ -1,0 +1,13 @@
+[package]
+name = "w7x-turbulence-control"
+version = "2.0.0"
+edition = "2021"
+authors = ["[Your Name]"]
+description = "Adaptive turbulence control simulation for W7-X stellarator impurity management"
+license = "MIT"
+repository = "https://github.com/[username]/w7x-adaptive-turbulence-control"
+keywords = ["fusion", "stellarator", "plasma", "simulation", "w7x"]
+categories = ["science", "simulation"]
+
+[dependencies]
+ndarray = "0.15"
