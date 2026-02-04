@@ -71,9 +71,9 @@ loop {
 
 | Version | Status | Key Issue | Solution |
 |---------|--------|-----------|----------|
-| [v0](w7x-adaptive-turbulence-control/code/v0-initial) | ❌ Explosion | Numerical instability (10²⁸³!) | Reduce timestep |
-| [v1](w7x-adaptive-turbulence-control/code/v1-stable) | ⚠️ Stable but inactive | Control not triggering | Lower threshold |
-| [v2](w7x-adaptive-turbulence-control/code/v2-final) | ✅ Success | - | Balanced parameters |
+| [v0](code/v0-initial) | ❌ Explosion | Numerical instability (10²⁸³!) | Reduce timestep |
+| [v1](code/v1-stable) | ⚠️ Stable but inactive | Control not triggering | Lower threshold |
+| [v2](code/v2-final) | ✅ Success | - | Balanced parameters |
 
 Each version includes code, results, and lessons learned.
 
