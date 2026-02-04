@@ -9,24 +9,24 @@ enum ConfinementMode {
 }
 
 struct StellaratorState {
-    radius_grid: Array1\<f64>,
+    radius_grid: Array1<f64>,
     dr: f64,
     nr: usize,
-    impurity_density: Array1\<f64>,
-    electron_density: Array1\<f64>,
-    electron_temp: Array1\<f64>,
+    impurity_density: Array1<f64>,
+    electron_density: Array1<f64>,
+    electron_temp: Array1<f64>,
     d_neo: f64,
     d_turb_base: f64,
     v_neo: f64,
     confinement_mode: ConfinementMode,
     time: f64,
-    pulse_start_time: Option\<f64>,
-    last_pulse_end_time: Option\<f64>,  // ⭐ 추가
-    cooldown_duration: f64,            // ⭐ 추가
-    center_impurity_history: Vec\<f64>,
-    edge_impurity_history: Vec\<f64>,
-    turbulence_history: Vec\<f64>,
-    time_history: Vec\<f64>,
+    pulse_start_time: Option<f64>,
+    last_pulse_end_time: Option<f64>,  // ⭐ Added
+    cooldown_duration: f64,            // ⭐ Added
+    center_impurity_history: Vec<f64>,
+    edge_impurity_history: Vec<f64>,
+    turbulence_history: Vec<f64>,
+    time_history: Vec<f64>,
 }
 
 impl StellaratorState {
@@ -43,7 +43,7 @@ impl StellaratorState {
             electron_temp: Array1::zeros(nr),
             d_neo: 0.02,
             d_turb_base: 1.5,  // ⭐ 1.0 → 1.5
-            v_neo: -0.5,       // ⭐ -0.8 → -0.5 (약하게)
+            v_neo: -0.5,       // ⭐ -0.8 → -0.5 (weaker)
             confinement_mode: ConfinementMode::Normal,
             time: 0.0,
             pulse_start_time: None,
@@ -119,7 +119,7 @@ impl StellaratorState {
     fn detect_impurity_accumulation(&self) -> bool {
         let center_nz = self.impurity_density[0];
         
-        if center_nz > 8e17 {  // ⭐ 5e17 → 8e17 (더 높게)
+        if center_nz > 8e17 {  // ⭐ 5e17 → 8e17 (higher threshold)
             return true;
         }
 
@@ -128,7 +128,7 @@ impl StellaratorState {
             let prev = last - 100;
             let rate = (self.center_impurity_history[last] - self.center_impurity_history[prev])
                 / (self.time_history[last] - self.time_history[prev]);
-            if rate > 1.5e18 {  // ⭐ 더 높은 증가율
+            if rate > 1.5e18 {  // ⭐ Higher growth rate
                 return true;
             }
         }
@@ -136,10 +136,10 @@ impl StellaratorState {
     }
 
     fn update(&mut self, dt: f64) {
-        // ⭐ 쿨다운 제어 로직
+        // ⭐ Cooldown control logic
         match self.confinement_mode {
             ConfinementMode::Normal => {
-                // 쿨다운 체크
+                // Check cooldown
                 let can_pulse = if let Some(last_end) = self.last_pulse_end_time {
                     self.time - last_end > self.cooldown_duration
                 } else {
@@ -147,15 +147,15 @@ impl StellaratorState {
                 };
                 
                 if can_pulse && self.detect_impurity_accumulation() {
-                    println!("⚠️ t={:.3}s: 불순물 축적! 펄스 시작", self.time);
+                    println!("⚠️ t={:.3}s: Impurity accumulation! Starting pulse", self.time);
                     self.confinement_mode = ConfinementMode::TurbulencePulse;
                     self.pulse_start_time = Some(self.time);
                 }
             }
             ConfinementMode::TurbulencePulse => {
                 if let Some(start) = self.pulse_start_time {
-                    if self.time - start > 0.2 {  // ⭐ 0.1 → 0.2초
-                        println!("✅ t={:.3}s: 정상 복귀 (쿨다운 {:.1}s)", 
+                    if self.time - start > 0.2 {  // ⭐ 0.1 → 0.2s
+                        println!("✅ t={:.3}s: Return to normal (cooldown {:.1}s)", 
                                  self.time, self.cooldown_duration);
                         self.confinement_mode = ConfinementMode::Normal;
                         self.last_pulse_end_time = Some(self.time);  // ⭐
@@ -165,7 +165,7 @@ impl StellaratorState {
             }
         }
 
-        // 수송 방정식
+        // Transport equation
         let mut new_nz = self.impurity_density.clone();
         for i in 1..self.nr - 1 {
             let r = self.radius_grid[i];
@@ -181,7 +181,7 @@ impl StellaratorState {
                 (flux_p - flux_m) / self.dr
             };
             
-            let source = if r > 0.85 { 2.5e17 } else { 0.0 };  // ⭐ 적당히
+            let source = if r > 0.85 { 2.5e17 } else { 0.0 };  // ⭐ Moderate value
 
             new_nz[i] = (self.impurity_density[i] + (-div_flux + source) * dt).max(0.0);
             new_nz[i] = new_nz[i].min(1e20);
@@ -220,7 +220,7 @@ impl StellaratorState {
 }
 
 fn main() {
-    println!("🌟 W7-X 적응형 난류 제어 시뮬레이터 v3.0 (쿨다운 추가)");
+    println!("🌟 W7-X Adaptive Turbulence Control Simulator v3.0 (Cooldown Added)");
     println!("{}", "=".repeat(60));
 
     let mut state = StellaratorState::new(101);
@@ -229,11 +229,11 @@ fn main() {
     let t_max = 10.0;
     let mut step = 0;
 
-    println!("시뮬레이션 파라미터:");
+    println!("Simulation parameters:");
     println!("  dt = {:.6}s, dr = {:.4}, nr = {}", dt, state.dr, state.nr);
     println!("  D_neo = {:.2}, D_turb = {:.2}, v_neo = {:.2}", 
              state.d_neo, state.d_turb_base, state.v_neo);
-    println!("  펄스: 200ms, 쿨다운: {}ms", (state.cooldown_duration * 1000.0) as u32);
+    println!("  Pulse: 200ms, Cooldown: {}ms", (state.cooldown_duration * 1000.0) as u32);
     println!("{}", "=".repeat(60));
 
     while state.time < t_max {
@@ -249,13 +249,13 @@ fn main() {
     }
 
     println!("{}", "=".repeat(60));
-    println!("📊 최종 통계:");
-    println!("  중심 불순물: {:.2e} m⁻³", state.impurity_density[0]);
-    println!("  가장자리 불순물: {:.2e} m⁻³", state.impurity_density[state.nr-1]);
+    println!("📊 Final statistics:");
+    println!("  Center impurity: {:.2e} m⁻³", state.impurity_density[0]);
+    println!("  Edge impurity: {:.2e} m⁻³", state.impurity_density[state.nr-1]);
     
     if let Err(e) = state.save_to_csv("w7x_simulation.csv") {
-        eprintln!("❌ 저장 실패: {}", e);
+        eprintln!("❌ Save failed: {}", e);
     } else {
-        println!("💾 저장 완료: w7x_simulation.csv");
+        println!("💾 Save complete: w7x_simulation.csv");
     }
 }
