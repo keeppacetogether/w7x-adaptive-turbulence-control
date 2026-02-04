@@ -43,7 +43,7 @@ Think of plasma like managing "mood swings":
 
 ### Final Simulation (v3)
 
-![Simulation Results](code/v2-final/result.png)
+![Simulation Results](w7x-adaptive-turbulence-control/code/v2-final/result.png)
 
 **Key Achievements:**
 - ✅ Stable sawtooth pattern (6-10×10¹⁸ m⁻³)
@@ -71,10 +71,9 @@ loop {
 
 | Version | Status | Key Issue | Solution |
 |---------|--------|-----------|----------|
-| [v0](code/v0-initial) | ❌ Explosion | Numerical instability (10²⁸³!) | Reduce timestep |
-| [v1](code/v1-stable) | ⚠️ Stable but inactive | Control not triggering | Lower threshold |
-| [v2](code/v2-control) | ⚠️ Infinite loop | Continuous pulsing | Add cooldown |
-| [v3](code/v3-final) | ✅ Success | - | Balanced parameters |
+| [v0](w7x-adaptive-turbulence-control/code/v0-initial) | ❌ Explosion | Numerical instability (10²⁸³!) | Reduce timestep |
+| [v1](w7x-adaptive-turbulence-control/code/v1-stable) | ⚠️ Stable but inactive | Control not triggering | Lower threshold |
+| [v2](w7x-adaptive-turbulence-control/code/v2-final) | ✅ Success | - | Balanced parameters |
 
 Each version includes code, results, and lessons learned.
 
@@ -162,7 +161,7 @@ This is a research concept project. Feedback welcome!
 
 ## 📧 Contact
 
-**Author**: [Your Name]
+**Author**: David Jang
 **Status**: Seeking feedback from fusion research community
 
 ## 📄 License
@@ -173,11 +172,11 @@ MIT License - see [LICENSE](LICENSE) file
 
 If you use this code, please cite:
 ```bibtex
-@software{[yourname]_2025_w7x_turbulence,
-  author = {[Your Name]},
+@software{David Jang_2025_w7x_turbulence,
+  author = {David Jang},
   title = {Adaptive Turbulence Control for W7-X Stellarator},
   year = {2025},
-  url = {https://github.com/[username]/w7x-adaptive-turbulence-control}
+  url = {https://github.com/keeppacetogether/w7x-adaptive-turbulence-control}
 }
 ```
 
