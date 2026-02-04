@@ -102,8 +102,8 @@ where:
 ## 🏃 Quick Start
 ```bash
 # Clone
-git clone https://github.com/[username]/w7x-adaptive-turbulence-control.git
-cd w7x-adaptive-turbulence-control/code/v3-final
+git clone https://github.com/keeppacetogether/w7x-adaptive-turbulence-control.git
+cd w7x-adaptive-turbulence-control/code/v2-final
 
 # Run simulation (Rust)
 cargo run --release
